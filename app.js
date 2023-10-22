@@ -58,9 +58,10 @@ for (let i = 0; i < buttons.length; i++) {
         
         if (e.target.classList.contains('operands')) {
             if (screen.innerText != '')
+            {
                 var lastChar = screen.innerText[screen.innerText.length -1];
                 if (lastChar != '+' && lastChar != '-' && lastChar != '/' && lastChar != 'X')
-                    
+                    {
                     if (screen.innerText.indexOf('+') === -1 &&
                         screen.innerText.indexOf('-') === -1 &&
                         screen.innerText.indexOf('/') === -1 &&
@@ -92,7 +93,12 @@ for (let i = 0; i < buttons.length; i++) {
                             screen.innerText = `${n1}${e.target.innerText}`;
                             operand = e.target.innerText;
                         }
-                        
+                    }
+                    else {
+                        screen.innerText = screen.innerText.replace(operand, e.target.innerText);
+                        operand = e.target.innerText;
+                    }
+                }
                 else {
                     screen.innerText = screen.innerText;
                 }
