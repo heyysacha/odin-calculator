@@ -85,7 +85,32 @@ for (let i = 0; i < buttons.length; i++) {
             }
         }
         )
-                        
+        
+        // //rounding decimals
+        if (n1 !== '')
+        {
+            if (n1.toString().indexOf('.') != -1 && 
+                n1.toString().split('.')[1].length >= 5) 
+            {
+                n1 = n1.toString().split('.');
+                n1[1] = n1[1].slice(0,4);
+                n1 = n1.join('.');
+                n1 = parseFloat(n1);
+                screen.innerText = n1;
+            }
+            
+            if (n2.toString().indexOf('.') != -1 && 
+                n2.toString().split('.')[1].length >= 5) 
+            {
+                n2 = n2.toString().split('.');
+                n2[1] = n2[1].slice(0,4);
+                n2 = n2.join('.');
+                n2 = parseFloat(n2);
+                screen.innerText = `${n1}${operand}${n2}`;
+            }
+        }
+        
+        
         //If there are two numbers, evaluate them when you press and operator. Store the result
         
         if (e.target.classList.contains('operands')) {
@@ -171,6 +196,17 @@ equals.addEventListener('click', () => {
             else if (operand == 'X') {
                 total = n1 * n2;
             }
+            
+            if (n1 !== '') {
+                if (n1.toString().indexOf('.') != -1 && 
+                n1.toString().split('.')[1].length >= 5)
+                {
+                n1 = n1.toString().split('.');
+                n1[1] = n1[1].slice(0,4);
+                n1 = n1.join('.');  
+                }
+            }
+            
             if (screen.innerText != 'Impossible') {
             n1 = total;
             n2 = '';
