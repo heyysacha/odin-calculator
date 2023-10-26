@@ -2,7 +2,8 @@ let screen = document.querySelector('#screen');
 let buttons = document.querySelector('#buttons').children;
 let operands = document.querySelectorAll('.operands');
 let numbers = document.querySelectorAll('.num');
-
+let decimals = document.querySelector('#dot');
+let del = document.querySelector('#delete');
 
 let n1 = '';
 let operand = '';
@@ -28,6 +29,10 @@ for (let i = 0; i < buttons.length; i++) {
         // turns the clicked button background gray       
         e.target.style.backgroundColor = 'rgb(77, 77, 77)';
         
+        //clearing screen if last entry was impossible
+        if (screen.innerText === 'Impossible') {
+            screen.innerText = '';
+        }
         
         //making the math work 
         //numbers buttons  
@@ -37,11 +42,13 @@ for (let i = 0; i < buttons.length; i++) {
             if (screen.innerText.indexOf('+') == -1 && 
                 screen.innerText.indexOf('-') == -1 && 
                 screen.innerText.indexOf('/') == -1 && 
-                screen.innerText.indexOf('X') == -1)
+                screen.innerText.indexOf('X') == -1 
+                )
         {
             screen.innerText = screen.innerText.concat(e.target.innerText);
-            n1 = parseInt(screen.innerText);
-        } 
+            n1 = parseFloat(screen.innerText);
+        }
+            
         //setting n2
             else if (screen.innerText.indexOf('+') != -1 || 
                     screen.innerText.indexOf('-') != -1 || 
@@ -50,10 +57,35 @@ for (let i = 0; i < buttons.length; i++) {
                         {
                             screen.innerText = screen.innerText.concat(e.target.innerText);
                             n2 = screen.innerText.split(operand);
-                            n2 = parseInt(n2[n2.length - 1]);
+                            n2 = parseFloat(n2[n2.length - 1]);
                         }
-       
-        
+                        
+                        
+        //adding decimals
+        decimals.addEventListener('click', () => {
+            if (screen.innerText.indexOf('.') == -1 &&
+            screen.innerText.indexOf('+') == -1 && 
+            screen.innerText.indexOf('-') == -1 && 
+            screen.innerText.indexOf('/') == -1 && 
+            screen.innerText.indexOf('X') == -1) 
+                {
+                screen.innerText = screen.innerText.concat('.');
+                n1 = parseFloat(screen.innerText);
+                }
+            
+            else if (screen.innerText.split(operand)[1].indexOf('.') == -1 &&
+            screen.innerText.indexOf('+') != -1 || 
+            screen.innerText.indexOf('-') != -1 || 
+            screen.innerText.indexOf('/') != -1 || 
+            screen.innerText.indexOf('X') != -1) 
+            {
+                screen.innerText = screen.innerText.concat('.');
+                n2 = screen.innerText.split(operand);
+                n2 = parseFloat(n2[n2.length - 1]);
+            }
+        }
+        )
+                        
         //If there are two numbers, evaluate them when you press and operator. Store the result
         
         if (e.target.classList.contains('operands')) {
@@ -74,7 +106,6 @@ for (let i = 0; i < buttons.length; i++) {
                         else {
                             if (operand == '+') 
                             {
-                                console.log(typeof(n1), typeof(n2));
                                 n1 = n1 + n2;
                             }
                             else if (operand == '-') 
@@ -131,14 +162,23 @@ equals.addEventListener('click', () => {
                 total = n1 - n2;
             }
             else if (operand == '/') {
+                if (n2 === 0) {
+                    screen.innerText = 'Impossible';
+                } else {
                 total = n1 / n2;
+                }
             }
             else if (operand == 'X') {
                 total = n1 * n2;
             }
+            if (screen.innerText != 'Impossible') {
             n1 = total;
             n2 = '';
             screen.innerText = n1;
+            }
+            else {
+                screen.innerText = screen.innerText;
+            }
         }
     }
 })
@@ -153,3 +193,16 @@ clear.addEventListener('click', () => {
     n2 = '';
     operand = '';
 });
+
+//delete button
+
+del.addEventListener('click', () => {
+    if (screen.innerText === '8008135') {
+        screen.innerText = '';
+    }
+    else {
+        let last = screen.innerText.length -1;
+        screen.innerText = screen.innerText.slice(0, last);
+    }
+})
+
